@@ -1,0 +1,449 @@
+Express
+
+nodejs webserver->
+Now we create our own node js webserver, where  user can access our webapp using 
+url(instead of terminal)
+
+1)create a server.js file in the root folder where we will configure
+various routes things of the websites pages
+2)we will also configure our server things like
+binding the port on our machine.
+
+
+example:1
+const express=require('express');
+var app=express();
+
+//setting the route using below
+app.get('/',(req,res)=>{
+  
+    res.send("<h1>Hello express</h1>");
+   
+})
+//req->req stores http things like header,body,method,url....
+//res->our http response like html,json...or  http status code
+
+
+//To make app actually start listening..use below
+app.listen(3000);//important note: binds the application to port 3000 on our machine.
+
+output:
+http://localhost:3000/
+Hello express
+
+
+
+app.get('/',(req,res)=>{
+  
+    res.send("<h1>Hello express</h1>");//we can send plain text or html tag with text
+   
+})
+In example1: the content-Type header is automatically set to text/html
+
+
+Express:2
+
+const express=require('express');
+var app=express();
+app.get('/',(req,res)=>{
+  
+    res.send({
+        name:'Raman',
+        likes:[
+            'Biking',
+            'Cities'
+        ]
+    });
+})  
+app.listen(3000);
+
+output:
+
+http://localhost:3000/
+
+// 20180207222233
+// http://localhost:3000/
+
+{
+  "name": "Raman",
+  "likes": [
+    "Biking",
+    "Cities"
+  ]
+}
+
+In example2: the content-Type header is automatically set to application/json
+
+
+example:3
+const express=require('express');
+var app=express();
+app.get('/',(req,res)=>{
+    res.send({
+        name:'Raman',
+        likes:[
+            'Biking',
+            'Cities'
+        ]
+    });
+})  
+
+app.get('/about',(req,res)=>{
+    res.send('<h1>About Us</h1>');
+})
+
+app.get('/bad',(req,res)=>{
+    res.send({
+        errorMessage:'Unable to Handle request...'
+    });
+})
+app.listen(3000);
+
+
+output:
+
+http://localhost:3000/
+
+// 20180207222233
+// http://localhost:3000/
+
+{
+  "name": "Raman",
+  "likes": [
+    "Biking",
+    "Cities"
+  ]
+}
+
+http://localhost:3000/bad
+// 20180207223455
+// http://localhost:3003/bad
+
+{
+  "errorMessage": "Unable to Handle request..."
+}
+
+
+//Creating a webserver
+//setting a static Website with images/css/htmls/....
+
+
+Middleware lets us configure how our express application works.
+1)Inorder to add Middleware in our express application we use
+app.use(middleware)
+
+i.e app.use(express.static(__dirname+'/public/help.html))
+
+
+example:4
+
+node-web-server/public/help.html
+<html>
+    <title>Help Page</title>
+    <body>
+       <h1>Help Page information</h1> 
+    </body>
+</html>
+
+
+
+node-web-server/server.js
+const express=require('express');
+var app=express();
+
+app.use(express.static(__dirname+'/public'));//setting static webpages in express js application
+
+app.listen(3000,()=>{
+    console.log("Server is up and back in browser....");
+});
+
+
+
+output:
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ node server.js
+Server is up and back in browser....
+http://localhost:3005/help.html
+Help Page information
+
+
+
+Handlebarsjs
+Handlebar js is a view enginee, sometimes called as hbs.
+Using hbs as the default view engine requires just one line of code in your app setup.
+This will render .hbs files when res.render is called.
+
+app.set('view enginee','hbs');//sets hbs enginee
+
+server.js
+const express=require('express');
+const hbs=require('hbs');
+var app=express();
+app.set('view enginee','hbs');//setting up hbs enginee
+app.use(express.static(__dirname+'/public'));
+app.get('/about',(req,res)=>{
+    res.render('about.hbs');//renders hbs page
+})
+app.listen(3000,()=>{
+    console.log("Server is up and back in browser....");
+});
+
+views/about.hbs
+<html>
+    <title>About Page</title>
+    <body>
+       <h1>About Page information</h1> 
+    </body>
+</html>
+
+output:
+output:
+http://localhost:3000/about
+About Page information
+
+
+example:2
+
+server.js
+
+const express=require('express');
+const hbs=require('hbs');
+var app=express();
+
+
+app.set('view enginee','hbs');//setting up hbs enginee
+
+app.use(express.static(__dirname+'/public'));
+
+app.get('/',(req,res)=>{
+    res.render('home.hbs',{
+        PageTitle:'Home Page',
+        CurrentYear:new Date().getFullYear(),
+        Message:'Welcome to Home Page'
+    })
+});
+
+app.get('/about',(req,res)=>{
+    res.render('about.hbs',{
+        PageTitle:'About Page',
+        CurrentYear:new Date().getFullYear()
+    })
+});
+
+app.listen(3000,()=>{
+    console.log("Server is up and back in browser....");
+});
+
+
+views/home.hbs
+<html>
+    <title>About Page</title>
+    <body>
+       <h1>{{PageTitle}} information</h1> 
+       <h3>{{Message}}</h3>
+           <footer>
+             <p>copyright @{{CurrentYear}}</p>
+           </footer>
+       </footer>
+    </body>
+</html>
+
+output:
+http://localhost:3000/
+Home Page information
+Welcome to Home Page
+copyright @2018
+
+
+Handlebarsjs 's registerPartial() 
+registerPartial() ->A partial is a partial piece of our website,
+that is something we can reuse always
+like footer,header,....
+
+registerHelper()
+example:
+hbs.registerHelper('getCurrentYear',()=>{
+    return new Date().getFullYear()
+});
+{{getCurrentYear}}
+
+
+
+
+hbs.registerHelper('screamIt',(text)=>{
+    return text.toUpperCase()
+})
+
+home.hbs
+<h3>{{screamIt Message}}</h3>
+
+
+example with registerHelper() and registerPartials()
+
+
+server.js
+const express=require('express');
+const hbs=require('hbs');
+var app=express();
+
+
+hbs.registerPartials(__dirname+'/views/partials');
+app.set('view enginee','hbs');//setting up hbs enginee
+
+app.use(express.static(__dirname+'/public'));
+
+
+hbs.registerHelper('getCurrentYear',()=>{
+    return new Date().getFullYear()
+});
+
+hbs.registerHelper('screamIt',(text)=>{
+    return text.toUpperCase()
+})
+
+
+app.get('/',(req,res)=>{
+    res.render('home.hbs',{
+        PageTitle:'Home Page',
+        Message:'Welcome to Home Page'
+    })
+});
+
+app.get('/about',(req,res)=>{
+    res.render('about.hbs',{
+        PageTitle:'About Page'
+    })
+});
+
+app.listen(2018,()=>{
+    console.log("Server is up and back in browser....");
+});
+
+
+views/partials
+footer.js
+<footer>
+  <p>create by raman-copyright @{{getCurrentYear}}</p>//hbs helper without arguments.
+</footer>
+
+header.hbs
+<header>
+  <p>NodeJs Application</p>
+  <p><a href="/">Home</a></p>
+  <p><a href="/about">About</a></p>
+</header>
+
+
+home.hbs
+<html>
+    <title>About Page</title>
+    <body>
+       <h1>{{PageTitle}} information</h1> 
+       {{> header}}
+       <h3>{{screamIt Message}}</h3><!-- hbs helper with argument
+          {{>  footer}}
+       </footer>
+    </body>
+</html>
+
+
+about.hbs
+<html>
+    <title>About Page</title>
+    <body>
+       <h1>{{PageTitle}} information</h1> 
+        {{> header}}
+        {{> footer}}
+    </body>
+</html>
+
+ouput
+http://localhost:2017/
+Home Page information
+NodeJs Application
+
+Home
+
+About
+
+Welcome to Home Page
+create by raman-copyright @2018
+
+
+
+Express Middleware
+server.js
+
+const fs=require('fs');
+const express=require('express');
+const hbs=require('hbs');
+var app=express();
+
+
+hbs.registerPartials(__dirname+'/views/partials');
+app.set('view enginee','hbs');//setting up hbs enginee
+
+app.use((req,res,next)=>{//defining Middleware
+  var log=`${new Date().toString()} method:${req.method} url:${req.url}`;
+  fs.appendFile('server.log',log+'\n');
+  next();//without next(), application does not move forward in middleware
+  //next() stops page untill request response is done like above.
+})
+
+app.use((req,res,next)=>{//middleware   //should always be on top, if we want to stop all files executed
+    //i.e to exact execute remaining pages that is under public folder, we have to push
+    //app.use(express.static(__dirname+'/public'));//this also middleware below else help.html will be executed
+
+   res.render('maintaince.hbs');//maintaince middleware
+   next();  
+});
+
+app.use(express.static(__dirname+'/public'));//this also middleware
+
+hbs.registerHelper('getCurrentYear',()=>{
+    return new Date().getFullYear()
+});
+
+hbs.registerHelper('screamIt',(text)=>{
+    return text.toUpperCase()
+})
+
+
+app.get('/',(req,res)=>{
+    res.render('home.hbs',{
+        PageTitle:'Home Page',
+        Message:'Welcome to Home Page'
+    })
+});
+
+app.get('/about',(req,res)=>{
+    res.render('about.hbs',{
+        PageTitle:'About Page'
+    })
+});
+
+app.listen(2030,()=>{
+    console.log("Server is up and back in browser....");
+});
+
+views/maintaince.hbs
+<html>
+    <title>About Page</title>
+    <body>
+      <h1>We Will Be Right Back
+          <p>This site is under construction...></p>
+      </h1>
+    </body>
+</html>
+
+
+
+output:
+server.log
+Thu Feb 08 2018 22:34:33 GMT+0530 (IST) method:GET url:/
+Thu Feb 08 2018 22:36:50 GMT+0530 (IST) method:GET url:/
+Thu Feb 08 2018 22:36:50 GMT+0530 (IST) method:GET url:/favicon.ico
+Thu Feb 08 2018 22:36:52 GMT+0530 (IST) method:GET url:/about
+Thu Feb 08 2018 22:36:54 GMT+0530 (IST) method:GET url:/
+Thu Feb 08 2018 22:47:03 GMT+0530 (IST) method:GET url:/
+Thu Feb 08 2018 22:47:03 GMT+0530 (IST) method:GET url:/favicon.ico

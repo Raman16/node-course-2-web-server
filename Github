@@ -1,0 +1,15 @@
+Guthub
+Installing github
+https://git-scm.com/
+
+git init
+Initialises git repository
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git init
+Initialized empty Git repository in /var/www/html/node-web-server/.git/
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ ls -a
+.  ..  express  .git  Github  node_modules  package.json  public  server.js  server.log  views  yarn.lock
+
+git status
+gets the status of our repository.
