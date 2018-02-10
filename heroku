@@ -67,3 +67,130 @@ package.json
     "hbs": "4.0.0"
   }
 }
+
+
+8)commit changes to github
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   Github
+        modified:   package.json
+        modified:   server.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        heroku
+
+no changes added to commit (use "git add" and/or "git commit -a")
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git add .
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git commit -m "Setup start script on heroku port "
+[master e375a38] Setup start script on heroku port
+ 4 files changed, 245 insertions(+), 3 deletions(-)
+ create mode 100644 heroku
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git push
+Username for 'https://github.com': raman16
+Password for 'https://raman16@github.com':
+Counting objects: 6, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 4.12 KiB | 2.06 MiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To https://github.com/Raman16/node-course-2-web-server.git
+   3a50c7d..e375a38  master -> master
+
+
+
+9)heroku create->creates an app over an heroku web app
+ and also add a new remote to your git repository 
+sysadmin@AcubeL020:/var/www/html/node-web-server$ heroku create
+Creating app... done, ⬢ obscure-everglades-11300
+https://obscure-everglades-11300.herokuapp.com/ | https://git.heroku.com/obscure-everglades-11300.git
+
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git push heroku
+
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git push heroku
+Counting objects: 23, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (21/21), done.
+Writing objects: 100% (23/23), 11.48 KiB | 1.91 MiB/s, done.
+Total 23 (delta 6), reused 0 (delta 0)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Node.js app detected
+remote:
+remote: -----> Creating runtime environment
+remote:
+remote:        NPM_CONFIG_LOGLEVEL=error
+remote:        NPM_CONFIG_PRODUCTION=true
+remote:        NODE_VERBOSE=false
+remote:        NODE_ENV=production
+remote:        NODE_MODULES_CACHE=true
+remote:
+remote: -----> Installing binaries
+remote:        engines.node (package.json):  unspecified
+remote:        engines.npm (package.json):   unspecified (use default)
+remote:        engines.yarn (package.json):  unspecified (use default)
+remote:
+remote:        Resolving node version 8.x...
+remote:        Downloading and installing node 8.9.4...
+remote:        Using default npm version: 5.6.0
+remote:        Resolving yarn version 1.x...
+remote:        Downloading and installing yarn (1.4.0)...
+remote:        Installed yarn 1.4.0
+remote:
+remote: -----> Restoring cache
+remote:        Skipping cache restore (not-found)
+remote:
+remote: -----> Building dependencies
+remote:        Installing node modules (yarn.lock)
+remote:        yarn install v1.4.0
+remote:        [1/4] Resolving packages...
+remote:        [2/4] Fetching packages...
+remote:        [3/4] Linking dependencies...
+remote:        [4/4] Building fresh packages...
+remote:        Done in 1.50s.
+remote:
+remote: -----> Caching build
+remote:        Clearing previous node cache
+remote:        Saving 2 cacheDirectories (default):
+remote:        - node_modules
+remote:        - bower_components (nothing to cache)
+remote:
+remote: -----> Build succeeded!
+remote: -----> Discovering process types
+remote:        Procfile declares types     -> (none)
+remote:        Default types for buildpack -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 19.3M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://obscure-everglades-11300.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/obscure-everglades-11300.git
+ * [new branch]      master -> master
+
+
+
+
+important note:
+remote:        https://obscure-everglades-11300.herokuapp.com/ deployed to Heroku
+
+
+
+
+10)our app is at website
+https://obscure-everglades-11300.herokuapp.com/
+
+
