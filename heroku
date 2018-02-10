@@ -1,0 +1,69 @@
+Deploying apps
+
+1)Install heroku took belt using below command.
+
+sudo wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+
+2)login to heroku dashboard
+https://dashboard.heroku.com/apps
+
+
+3)login to heroku in CLI
+sysadmin@AcubeL020:/var/www/html/node-web-server$ heroku login
+Enter your Heroku credentials:
+Email: bandariraman@gmail.com
+Password: *************
+Logged in as bandariraman@gmail.com
+
+
+4)Now get our SSH Key on heroku using below command
+
+heroku keys:add//finds ssh key in our machine.
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ heroku keys:add
+output:
+Found an SSH public key at /home/sysadmin/.ssh/id_rsa.pub
+? Would you like to upload it to Heroku? Yes
+Uploading /home/sysadmin/.ssh/id_rsa.pub SSH key... done
+
+5)check ssh keys
+sysadmin@AcubeL020:/var/www/html/node-web-server$ heroku keys
+=== bandariraman@gmail.com keys
+ssh-rsa AAAAB3NzaC...bLSr7cpw== bandariraman@gmail.com
+ssh-rsa AAAAB3NzaC...rut/KIEw== laxmi@HOME
+
+6)Testing our connection using below command
+ssh -v git@heroku.com
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ ssh -v git@heroku.com
+OpenSSH_7.5p1 Ubuntu-10ubuntu0.1, OpenSSL 1.0.2g  1 Mar 2016
+debug1: Authentication succeeded (publickey).//  important point://if success this msg else permission denied.
+
+
+7)We need to do two changes before we deploying into heroku
+
+
+server.js
+i)setting from environment variable
+const port=process.env.PORT || 3000;
+app.listen(port,()=>{
+    console.log(`Server is up on port ${port}`);
+});
+
+
+ii)setting  "start":"node server.js"
+
+package.json
+{
+  "name": "node-web-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts":{
+      "start":"node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.14.0",
+    "hbs": "4.0.0"
+  }
+}

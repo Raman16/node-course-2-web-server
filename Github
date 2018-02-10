@@ -13,3 +13,172 @@ sysadmin@AcubeL020:/var/www/html/node-web-server$ ls -a
 
 git status
 gets the status of our repository.
+
+//create a file name .gitignore->to ignore the files we want to 
+
+.gitignore
+node_modules/
+server.log
+
+
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git add .
+//adds all files to commit.
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+        new file:   .gitignore
+        new file:   Github
+        new file:   express
+        new file:   package.json
+        new file:   public/help.html
+        new file:   server.js
+        new file:   views/about.hbs
+        new file:   views/home.hbs
+        new file:   views/maintaince.hbs
+        new file:   views/partials/footer.hbs
+        new file:   views/partials/header.hbs
+        new file:   yarn.lock
+sysadmin@AcubeL020:/var/www/html/node-web-server$ git commit -m "Initial commit"
+
+
+
+
+
+
+
+
+
+
+https://help.github.com/articles/reviewing-your-ssh-keys/
+
+or 
+
+follow below steps.
+
+
+
+SettingUp github and ssh keys
+//
+1)We have to create a ssh key
+ssh key establishes a secure connection  between two machines.
+i.e between our machine and github servers.
+
+2)We have to generate an ssh key
+i)First check if any ssh key exist.
+
+check in rootdirectory for ssh key first i.e (~/)
+sysadmin@AcubeL020:/var/www/html/node-web-server$ ls -al ~/.ssh
+total 12
+drwx------  2 sysadmin sysadmin 4096 Jan 25 18:33 .
+drwxr-xr-x 28 sysadmin sysadmin 4096 Feb  9 20:49 ..
+-rw-r--r--  1 sysadmin sysadmin  444 Jan 30 18:57 known_hosts//
+//does not exist.
+
+3)Setting up ssh key
+ssh-keygen takes three arguments.
+ex:
+ssh-keygen -t rsa -b 4096 -C 'bandariraman@gmail.com'
+--> -t for rsa
+--> -b for 4096 bytes
+--> -C for Email
+
+i.e
+
+ssh-keygen -t rsa -b 4096 -C 'bandariraman@gmail.com'
+
+output:
+sysadmin@AcubeL020:/var/www/html/node-web-server$ ssh-keygen -t rsa -b 4096 -C 'bandariraman@gmail.com'
+
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/sysadmin/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/sysadmin/.ssh/id_rsa.
+Your public key has been saved in /home/sysadmin/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:Tk3rCSGyAEW+S8+SBoFkUf9K2yjgRuf2MmmY/NKaF/U bandariraman@gmail.com
+The key's randomart image is:
++---[RSA 4096]----+
+|.*=.             |
+|+o  .            |
+|o o ... . .      |
+| . o +.. + .     |
+|.oo.o...S o      |
+|oo+*. =E o .     |
+|.oO+=+ .. o      |
+|.*oOo            |
+| o*.o.           |
++----[SHA256]-----+
+
+
+//Hence ssh key is generated, check below.
+sysadmin@AcubeL020:/var/www/html/node-web-server$ ls -al ~/.ssh
+total 20
+drwx------  2 sysadmin sysadmin 4096 Feb  9 21:41 .
+drwxr-xr-x 28 sysadmin sysadmin 4096 Feb  9 20:49 ..
+-rw-------  1 sysadmin sysadmin 3243 Feb  9 21:41 id_rsa
+-rw-r--r--  1 sysadmin sysadmin  748 Feb  9 21:41 id_rsa.pub
+-rw-r--r--  1 sysadmin sysadmin  444 Jan 30 18:57 known_hosts
+
+
+
+4)Below code starts ssh agent program and its prints process id.
+sysadmin@AcubeL020:/var/www/html/node-web-server$ eval "$(ssh-agent -s)"
+Agent pid 4432
+
+5)tell the ssh agent where the file lives
+sysadmin@AcubeL020:/var/www/html/node-web-server$ ssh-add ~/.ssh/id_rsa
+
+output: 
+Identity added: /home/sysadmin/.ssh/id_rsa (/home/sysadmin/.ssh/id_rsa)
+
+
+
+5)Login to github account
+ i)Click settings->SSH and GPG keys
+ii)click add NEW SSH
+  Enter Title:Linux_Nodejs
+  key:Enter key manually or use below command in linux command line 
+
+sysadmin@AcubeL020:/var/www/html/node-web-server$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcd/EFdlStwt5tVTusZQqtLszFpt3Nig3IMaFQOKYsPMpDthlgErv0QbQGJfIiM4XFJpG
+qsF4VXxRLhWVXDT6XaASE/Hk3N0NDDOLcuKYzYqKHmZ/ncmpp0MwNcU1DUFC+vS7pdeMFsZVWGb7orLwQ7GxR7rRCh1gpcPgvsK7VBDRz2uwE/
+CmgvSoW1jCZPFzIweODgoizPBRvOfYKsNV9h85zOOEfKmCMaaW2bU1nffXULFFa8dO/tkexi+O3CAutyGdXwaQ8/bHhT02lizbjrtG7BoyowBrswY
+FTjzezUe0UW5QcBRe8xoz3F8qt0bx19BznsLXBTbIZEfdMLRvwtuekXyMf9PyCLHSmavb0xVD3z+NNWknfwlzLlBJl7YhwmeeD4FMP4y27xKLNP4mk
+KQNcsUdALNDyWpJ8HydKG061QPwyWNVDqjffVZ7I+A1dpCXP/1SspSx7hoi43mbnUVqj9j4+jWCnCXteRMPEqUZX0tiCSqrvkXK4GSgg6bzHSmpM9Z
+3e0QXO1tCPZgqnMIwWDtsQiDDXsfNTWaeuOmD7vSWfzj9IMJDnAQKW//UVqVhKLo1Owp4CEss0NOirF+9jFCD2nMCgyEc6MvjZyXTc/uiNNTSJ5
+2r4r5deP2K5AwbyTMSVgibQgfWub47WtYq35vF8JXZ0iAbLSr7cpw== bandariraman@gmail.com
+
+//copy paste above key in description in github add ssh key
+
+6)sysadmin@AcubeL020:/var/www/html/node-web-server$ ssh -T git@github.com
+
+The authenticity of host 'github.com (192.30.255.113)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,192.30.255.113' 
+(RSA) to the list of known hosts.Hi Raman16! You've successfully authenticated,
+ but GitHub does not provide shell access.
+ 
+
+
+ Hence sshkey is created and everything is fine...now we are ready to 
+ push our repository into github...
+
+ 7)
+ sysadmin@AcubeL020:/var/www/html/node-web-server$ git remote add origin https://github.com/Raman16/node-course-2-web-server.git
+
+ 8)
+ sysadmin@AcubeL020:/var/www/html/node-web-server$ git push -u origin masterUsername for 'https://github.com': Raman16Password for 'https://Raman16@github.com':Counting objects: 17, done.Delta compression using up to 4 threads.Compressing objects: 100% (15/15), done.Writing objects: 100% (17/17), 7.85 KiB | 2.62 MiB/s, done.
+Total 17 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/Raman16/node-course-2-web-server.git
+ * [new branch]      master -> master
+Branch master set up to track remote branch master from origin.
+

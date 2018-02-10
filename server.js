@@ -4,6 +4,7 @@ const express=require('express');
 const hbs=require('hbs');
 var app=express();
 
+const port=process.env.PORT || 3000;
 
 hbs.registerPartials(__dirname+'/views/partials');
 app.set('view enginee','hbs');//setting up hbs enginee
@@ -48,6 +49,6 @@ app.get('/about',(req,res)=>{
     })
 });
 
-app.listen(2030,()=>{
-    console.log("Server is up and back in browser....");
+app.listen(port,()=>{
+    console.log(`Server is up on port ${port}`);
 });
