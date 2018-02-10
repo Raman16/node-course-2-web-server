@@ -16,14 +16,14 @@ app.use((req,res,next)=>{//defining Middleware
   //next() stops page untill request response is done like above.
 })
 
-app.use((req,res,next)=>{//middleware   //should always be on top, if we want to stop all files executed
-    //i.e to exact execute remaining pages that is under public folder, we have to push
-    //app.use(express.static(__dirname+'/public'));// below this code else help.html will be executed
+// app.use((req,res,next)=>{//middleware   //should always be on top, if we want to stop all files executed
+//     //i.e to exact execute remaining pages that is under public folder, we have to push
+//     //app.use(express.static(__dirname+'/public'));// below this code else help.html will be executed
 
-   res.render('maintaince.hbs');//maintaince middleware
-   next();  
+//    res.render('maintaince.hbs');//maintaince middleware
+//    next();  
    
-});
+// });
 
 app.use(express.static(__dirname+'/public'));//this also middleware
 
